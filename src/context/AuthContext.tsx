@@ -1,6 +1,6 @@
-import { signInRequest } from "@/services/auth";
-import { ReactNode, createContext, useState } from "react";
-import { setCookie } from "nookies";
+import { recoverUserInformation, signInRequest } from "@/services/auth";
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
 type AuthContextType = {
@@ -30,6 +30,20 @@ export function AuthProvier({children}: AuthContextProps)  {
   const [user, setUser] = useState<UserDataType | null>(null)
 
   const isAuthenticated = !!user;
+
+  useEffect(() => {
+    /*
+      Vou ver se ainda existe token
+      para validar se o usuário está logado e buscar as informações dele
+    */
+
+    // A função retorna todos os tokens, porém como eu desistruturei pra pegar oque eu quero
+    const { 'nextauth.token': token } = parseCookies();
+
+    if(token) {
+      recoverUserInformation().then(response => setUser(response.user));
+    }
+  }, [])
 
   async function signIn({email, password}: sigInData) {
     //Lugar perfeito pra fazer a autenticação na API e trazer o token e salvar

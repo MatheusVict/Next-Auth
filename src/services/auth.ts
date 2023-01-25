@@ -21,3 +21,17 @@ export async function signInRequest(data: signInRequestDATA) {
   }
  }
 }
+
+// Receber um token e devolver as informções do usuário que criou aquele token
+
+export async function recoverUserInformation() {
+  await delay()
+
+  return {
+    user : {
+      name: 'Matheus Victor',
+      email: 'matheus@gmail.com',
+      avatarUrl: 'https://github.com/MatheusVict.png'
+    }
+  }
+}

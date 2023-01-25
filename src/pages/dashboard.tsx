@@ -1,8 +1,14 @@
-import React from 'react'
+import { AuthContext } from '@/context/AuthContext'
+import React, { useContext } from 'react'
 
 const DashBoard = () => {
+  const {user} = useContext(AuthContext)
+
   return (
-    <div>DashBoard</div>
+    <div>
+      <h1>Imagem:</h1>
+      <img src={user?.avatarUrl} />
+    </div>
   )
 }
 
