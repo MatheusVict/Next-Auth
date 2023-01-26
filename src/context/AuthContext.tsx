@@ -2,6 +2,7 @@ import { recoverUserInformation, signInRequest } from "@/services/auth";
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from "nookies";
 import Router from "next/router";
+import { api } from "@/services/api";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -63,6 +64,9 @@ export function AuthProvier({children}: AuthContextProps)  {
     setCookie(undefined, 'nextauth.token', token, {
       maxAge: 60 * 60 * 1, //1 hour
     });
+
+    // Toda vez que o usuário fizer o signIn atualizar o token header
+    api.defaults.headers['Authorization'] = `Bearer ${token}`
 
     setUser(user);
 
